@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>template MVC</title>
+        <title>Provinha GBD</title>
         <base href="<?= URL_BASE ?>"><!--Esta instrução é super importante e não deve ser mudada!-->
 
         <link rel="stylesheet" href="./publico/css/app.css">
