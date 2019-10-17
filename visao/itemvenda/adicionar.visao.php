@@ -1,17 +1,22 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <?php
-        // put your code here
-        ?>
-    </body>
-</html>
+<h1>Insira os dados:</h1>
+<form action="" method="POST">
+    Venda:<select name="codvenda">
+        <option value=""></option>
+         <?php foreach ($vendas as $venda): ?>
+            <option value="<?= $venda["codvenda"] ?>"><?=$venda["codvenda"]?></option>
+            <?php endforeach;?>
+    </select><br><br>
+    
+    Produto:<select name="codProduto">
+        <option value=""></option>
+         <?php foreach ($produtos as $produto): ?>
+            <option value="<?=$produto["codProduto"]?>"><?=$produto["descricao"]?></option>
+            <?php endforeach;?>
+    </select><br><br>
+     
+ Quantidade:  <input type="number" name="quantidade"><br><br>
+
+ <button type="submit">Adicionar</button>
+</form>
+
+

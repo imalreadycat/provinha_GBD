@@ -160,10 +160,10 @@ DROP PROCEDURE IF EXISTS sp_cadastrar_venda;
 
 DELIMITER $$
 
-CREATE PROCEDURE sp_cadastrar_venda(in codvenda int(10), idCliente int(10), dataVenda DATE)
+CREATE PROCEDURE sp_cadastrar_venda(in idCliente int(10), dataVenda DATE)
 BEGIN
-    if (codvenda != 0) and (idCliente != 0) and (dataVenda  != "") then
-	INSERT INTO venda VALUES(codvenda, idCliente , dataVenda );
+    if (idCliente != 0) and (dataVenda  != "") then
+	INSERT INTO venda (idCliente , dataVenda ) VALUES(idCliente , dataVenda);
     else 
              SELECT  "Você deve inserir um valor!" AS msg;
 END IF;
@@ -172,7 +172,7 @@ END $$
 
 DELIMITER ;
 
----
+
 
 DROP PROCEDURE IF EXISTS sp_listar_vendas;
 DELIMITER $$
@@ -184,7 +184,16 @@ END $$
 
 DELIMITER ;
 
----
+
+DROP PROCEDURE IF EXISTS sp_deleta_venda_por_id;
+DELIMITER $$
+
+CREATE PROCEDURE sp_deleta_venda_por_id(IN id INT(10))
+BEGIN
+	DELETE FROM venda WHERE codvenda=id;
+END $$
+
+DELIMITER ;
 
 DROP PROCEDURE IF EXISTS sp_listar_venda_por_id;
 DELIMITER $$
@@ -196,7 +205,7 @@ END $$
 
 DELIMITER ;
 
----
+
 
 DROP PROCEDURE IF EXISTS sp_atualizar_dados_da_venda;
 DELIMITER $$
@@ -236,8 +245,6 @@ END $$
 
 DELIMITER ;
 
----
-
 DROP PROCEDURE IF EXISTS sp_listar_itemvendas;
 DELIMITER $$
 
@@ -248,7 +255,7 @@ END $$
 
 DELIMITER ;
 
----
+
 
 DROP PROCEDURE IF EXISTS sp_atualizar_dados_do_itemvenda;
 DELIMITER $$

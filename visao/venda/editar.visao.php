@@ -1,8 +1,18 @@
-<?php
+<h1>Modifique os dados:</h1>
+<form action="" method="POST">
+ Cliente:<select name="idCliente">
+        <option value=""></option>
+         <?php foreach ($clientes as $cliente): ?>
+            <option value="<?=$cliente["idCliente"]?>"><?=$cliente["nome"]?></option>
+            <?php endforeach;?>
+    </select><br><br>
+ Data da Venda:  <input type="date" name="dataVenda" value="<?= $venda["dataVenda"] ?>"><br><br>
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+ <button type="submit">Atualizar</button>
+</form>
+
+
+
+
+
 

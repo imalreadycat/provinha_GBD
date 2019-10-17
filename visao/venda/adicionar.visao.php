@@ -1,6 +1,6 @@
 <h1>Insira os dados:</h1>
 <form action="" method="POST">
-    Cliente:<select name="cod_categoria">
+    Cliente:<select name="idCliente">
         <option value=""></option>
          <?php foreach ($clientes as $cliente): ?>
             <option value="<?=$cliente["idCliente"]?>"><?=$cliente["nome"]?></option>

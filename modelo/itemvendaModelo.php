@@ -1,8 +1,10 @@
 <?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+function cadastrar($codvenda, $codProduto,$quantidade){
+    $comando= "call sp_cadastrar_itemvenda($codvenda, $codProduto,$quantidade)";
+
+    $resultado= mysqli_query($cnx=conn(), $comando);
+    if (!$resultado){die ('Erro ao cadastrar item venda'. mysqli_error($cnx)); }
+return 'Item Venda cadastrado com sucesso!';
+}
 
