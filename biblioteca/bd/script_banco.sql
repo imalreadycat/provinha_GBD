@@ -232,9 +232,9 @@ declare quanti INT;
 IF(codvenda != 0)AND(codProduto != 0)AND(quantidade != 0)THEN
 SET quanti = (SELECT quantidade FROM produto WHERE codProduto = codProduto);
 IF (quantidade < quanti) THEN
-INSERT INTO itemVenda VALUES(codvenda, codProduto, quantidade);
-ELSE
 SELECT "Estoque insuficiente" AS Msg;
+ELSE
+INSERT INTO itemVenda VALUES(codvenda, codProduto, quantidade);
 END IF;
 
 ELSE
@@ -267,6 +267,59 @@ END $$
 
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS sp_apagar_itemvenda;
 
+DELIMITER $$
 
+CREATE PROCEDURE sp_apagar_itemvenda(IN ID INT(10), cod INT(10))
+BEGIN
+	DELETE FROM itemvenda WHERE codvenda=id and codProduto = cod;
+END $$
 
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_pegar_itemvenda_por_id;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_pegar_itemvenda_por_id(IN ID INT(10), cod INT(10))
+BEGIN
+	SELECT * FROM itemvenda WHERE codvenda=id;
+END $$
+
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_pegar_itemvenda_por_id;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_pegar_itemvenda_por_id(IN id INT(10), cod INT(10))
+BEGIN
+	SELECT * FROM itemvenda WHERE codvenda=id and codProduto = cod;
+END $$
+
+DELIMITER ;
+
+-- triggers --
+
+DROP TRIGGER IF EXISTS tgr_diminuiestoque;
+DELIMITER $$ 
+CREATE TRIGGER tgr_diminuiestoque
+AFTER INSERT ON itemvenda 
+FOR EACH ROW 
+BEGIN 
+update produto set produto.Quantidade = produto.Quantidade- New.Quantidade 
+where produto.codproduto = new.codproduto; 
+END $$ 
+DELIMITER ;
+
+DROP TRIGGER IF EXISTS tgr_restauraestoque;
+DELIMITER $$ 
+CREATE TRIGGER tgr_restauraestoque
+AFTER DELETE ON itemvenda 
+FOR EACH ROW 
+BEGIN 
+update produto set produto.Quantidade = produto.Quantidade+ Old.Quantidade 
+where produto.codproduto = Old.codproduto; 
+END $$ 
+DELIMITER ;
