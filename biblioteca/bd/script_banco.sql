@@ -154,3 +154,112 @@ END $$
 
 DELIMITER ;
 
+-- Venda --
+
+DROP PROCEDURE IF EXISTS sp_cadastrar_venda;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_cadastrar_venda(in codvenda int(10), idCliente int(10), dataVenda DATE)
+BEGIN
+    if (codvenda != 0) and (idCliente != 0) and (dataVenda  != "") then
+	INSERT INTO venda VALUES(codvenda, idCliente , dataVenda );
+    else 
+             SELECT  "Você deve inserir um valor!" AS msg;
+END IF;
+
+END $$ 
+
+DELIMITER ;
+
+---
+
+DROP PROCEDURE IF EXISTS sp_listar_vendas;
+DELIMITER $$
+
+CREATE PROCEDURE sp_listar_vendas()
+BEGIN
+	SELECT * FROM venda;
+END $$
+
+DELIMITER ;
+
+---
+
+DROP PROCEDURE IF EXISTS sp_listar_venda_por_id;
+DELIMITER $$
+
+CREATE PROCEDURE sp_listar_venda_por_id(IN id INT(10))
+BEGIN
+	SELECT * FROM venda WHERE codvenda=id;
+END $$
+
+DELIMITER ;
+
+---
+
+DROP PROCEDURE IF EXISTS sp_atualizar_dados_da_venda;
+DELIMITER $$
+
+CREATE PROCEDURE sp_atualizar_dados_da_venda(in id int(10), cod int(10), dataVenda DATE)
+BEGIN
+	UPDATE venda SET dataVenda=dataVenda WHERE codvenda=id and idCliente = cod;
+END $$
+
+DELIMITER ;
+
+
+-- itemVenda --
+
+DROP PROCEDURE IF EXISTS sp_cadastrar_itemvenda;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_cadastrar_itemvenda(IN codvenda INT(10), codProduto INT(10), quantidade INT(10))
+BEGIN
+
+declare quanti INT;
+
+IF(codvenda != 0)AND(codProduto != 0)AND(quantidade != 0)THEN
+SET quanti = (SELECT quantidade FROM produto WHERE codProduto = codProduto);
+IF (quantidade < quanti) THEN
+INSERT INTO itemVenda VALUES(codvenda, codProduto, quantidade);
+ELSE
+SELECT "Estoque insuficiente" AS Msg;
+END IF;
+
+ELSE
+SELECT "Informe valores válidos" AS Msg;
+END IF;
+
+END $$ 
+
+DELIMITER ;
+
+---
+
+DROP PROCEDURE IF EXISTS sp_listar_itemvendas;
+DELIMITER $$
+
+CREATE PROCEDURE sp_listar_itemvendas()
+BEGIN
+	SELECT * FROM itemvenda;
+END $$
+
+DELIMITER ;
+
+---
+
+DROP PROCEDURE IF EXISTS sp_atualizar_dados_do_itemvenda;
+DELIMITER $$
+
+CREATE PROCEDURE sp_atualizar_dados_do_itemvenda(IN ID INT(10), cod INT(10), quantidade INT(10))
+BEGIN
+	UPDATE itemvenda SET quantidade=quantidade WHERE codvenda=id and codProduto = cod;
+END $$
+
+DELIMITER ;
+
+
+
+
